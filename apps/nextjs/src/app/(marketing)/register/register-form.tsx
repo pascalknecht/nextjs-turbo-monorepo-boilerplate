@@ -64,10 +64,7 @@ export function RegisterForm() {
           toast.error(ctx.error.message);
         },
         onSuccess: async () => {
-          toast({
-            title: "User registered successfully",
-            description: "You will be redirected to the dashboard",
-          });
+          toast.success("User registered successfully");
           router.push("/dashboard");
         },
       },
