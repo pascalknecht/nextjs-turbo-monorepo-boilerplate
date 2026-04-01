@@ -27,7 +27,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { deleteAccountAction } from "./actions";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 
 export const deleteSchema = z.object({
   confirm: z.string().refine((v) => v === "Please delete", {
@@ -39,7 +39,7 @@ export function DeleteAccountButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof deleteSchema>>({
+  const form = useForm<{ confirm: string }>({
     resolver: zodResolver(deleteSchema),
     defaultValues: {
       confirm: "",
@@ -50,7 +50,11 @@ export function DeleteAccountButton() {
     startTransition(() => {
       deleteAccountAction().then(() =>
         signOut({
-          callbackUrl: "/",
+          fetchOptions: {
+            onSuccess: () => {
+              window.location.href = "/";
+            },
+          },
         })
       );
     });
