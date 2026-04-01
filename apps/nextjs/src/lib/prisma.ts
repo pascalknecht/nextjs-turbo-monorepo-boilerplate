@@ -1,7 +1,9 @@
-import { PrismaClient } from "./generated/prisma/client";
+import { PrismaClient } from "./generated/prisma/client/client";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
+  return new PrismaClient({ adapter });
 };
 
 declare const globalThis: {
