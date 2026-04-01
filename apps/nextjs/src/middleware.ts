@@ -1,4 +1,3 @@
-import { betterAuth } from "better-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/settings"];
