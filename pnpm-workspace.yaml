@@ -1,9 +1,10 @@
 packages:
   - apps/*
-  - packages/*
+  # Uncomment when you add shared packages:
+  # - packages/*
 onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
+  - "@prisma/client"
+  - "@prisma/engines"
   - esbuild
   - prisma
   - sharp

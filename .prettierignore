@@ -1,0 +1,5 @@
+node_modules
+.next
+.turbo
+pnpm-lock.yaml
+apps/nextjs/src/lib/generated
