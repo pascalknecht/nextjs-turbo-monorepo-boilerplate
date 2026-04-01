@@ -3,7 +3,7 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -24,13 +24,13 @@ import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
-    message: "Full name must be at least 2 characters.",
+    error: "Full name must be at least 2 characters.",
   }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
+  email: z.email({
+    error: "Please enter a valid email address.",
   }),
   password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
+    error: "Password must be at least 8 characters.",
   }),
 });
 
