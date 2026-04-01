@@ -31,7 +31,7 @@ import { signOut } from "@/lib/auth-client";
 
 export const deleteSchema = z.object({
   confirm: z.string().refine((v) => v === "Please delete", {
-    message: "Please type 'Please delete' to confirm",
+    error: "Please type 'Please delete' to confirm",
   }),
 });
 
