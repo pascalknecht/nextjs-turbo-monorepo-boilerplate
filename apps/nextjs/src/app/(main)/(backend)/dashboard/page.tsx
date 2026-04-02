@@ -1,21 +1,16 @@
 import React from "react";
-import DashboardHeader from "../components/dashboard-header";
+import { DashboardSkeleton } from "@/components/dashboard-skeleton";
 
 export default function Page() {
   return (
     <>
-      <DashboardHeader
-        title="Dashboard"
-        description="Welcome to your dashboard"
-      />
-      <div className="flex flex-1 flex-col gap-4 py-6 px-8">
-        <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-        </div>
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="text-sm text-muted-foreground">
+          Welcome to your dashboard
+        </p>
       </div>
+      <DashboardSkeleton />
     </>
   );
 }
