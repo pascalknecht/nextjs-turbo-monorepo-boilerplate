@@ -2,6 +2,7 @@ import React from "react";
 import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
@@ -26,10 +27,12 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <Toaster />
-        <div className="flex flex-col w-full">
-          <div>{children}</div>
-        </div>
+        <TooltipProvider>
+          <Toaster />
+          <div className="flex flex-col w-full">
+            <div>{children}</div>
+          </div>
+        </TooltipProvider>
       </body>
     </html>
   );
