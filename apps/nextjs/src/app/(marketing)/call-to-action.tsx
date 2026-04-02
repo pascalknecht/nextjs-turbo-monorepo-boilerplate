@@ -1,30 +1,38 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function CallToAction() {
   return (
-    <section className="py-16 md:py-24 bg-green-50">
+    <section className="border-t border-border py-20 md:py-28">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <div className="mx-auto max-w-3xl rounded-3xl bg-primary px-8 py-16 text-center text-primary-foreground md:px-16">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+            Ready to transform your workflow?
           </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+          <p className="mx-auto mb-8 max-w-xl text-base text-primary-foreground/80">
+            Join thousands of teams already shipping faster. Start your free
+            trial today — no credit card required.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="#"
-              className="bg-green-800 text-white font-medium px-6 py-3 rounded-md flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button
+              size="lg"
+              variant="secondary"
+              asChild
             >
-              Get Started for Free <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="#"
-              className="bg-white text-green-800 font-medium px-6 py-3 rounded-md flex items-center justify-center gap-2 border border-green-100 hover:bg-green-50 transition-colors"
+              <Link href="/register">
+                Start Free Trial
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              asChild
             >
-              Contact Sales
-            </Link>
+              <Link href="#pricing">View Pricing</Link>
+            </Button>
           </div>
         </div>
       </div>

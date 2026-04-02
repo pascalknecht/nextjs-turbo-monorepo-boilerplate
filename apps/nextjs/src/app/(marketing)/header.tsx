@@ -1,56 +1,53 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export async function Header() {
   return (
-    <header className="container mx-auto px-4 py-4 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <Link href="/">
-          <Image src="/logo.svg" alt="Logo" width={100} height={100} />
-        </Link>
-      </div>
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-2">
+          <Link href="/">
+            <Image src="/logo.svg" alt="Logo" width={100} height={100} />
+          </Link>
+        </div>
 
-      <nav className="hidden md:flex items-center gap-6">
-        <Link
-          href="#"
-          className="text-sm font-medium text-gray-700 hover:text-green-800 transition-colors"
-        >
-          Why Choose Us?
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium text-gray-700 hover:text-green-800 transition-colors"
-        >
-          How It Works?
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium text-gray-700 hover:text-green-800 transition-colors"
-        >
-          Social Proof
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium text-gray-700 hover:text-green-800 transition-colors"
-        >
-          Pricing
-        </Link>
-      </nav>
+        <nav className="hidden items-center gap-1 md:flex">
+          <Link
+            href="#features"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Features
+          </Link>
+          <Link
+            href="#how-it-works"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            How It Works
+          </Link>
+          <Link
+            href="#pricing"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Pricing
+          </Link>
+          <Link
+            href="#"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Docs
+          </Link>
+        </nav>
 
-      <div className="flex items-center gap-3">
-        <Link
-          href="/login"
-          className="text-sm font-medium hover:text-green-800 transition-colors"
-        >
-          Log In
-        </Link>
-        <Link
-          href="/register"
-          className="bg-green-800 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
-        >
-          Get Started For Free
-        </Link>
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/login">Log In</Link>
+          </Button>
+          <Button size="sm" asChild>
+            <Link href="/register">Get Started</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );
