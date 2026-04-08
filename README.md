@@ -36,6 +36,10 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 │           ├── hooks/             # Custom React hooks
 │           ├── lib/               # Auth, database, Stripe, utilities
 │           └── use-cases/         # Business logic layer
+├── docker/                # Docker configuration files
+│   └── pgadmin/           # pgAdmin server pre-configuration
+├── Dockerfile             # Multi-stage production build
+├── docker-compose.yml     # App + Postgres + pgAdmin
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
 └── .env.example           # Environment variable template
@@ -153,6 +157,58 @@ packages:
 Environment variables are validated at runtime using [`@t3-oss/env-nextjs`](https://env.t3.gg/) with Zod schemas. See `apps/nextjs/src/env.ts`.
 
 To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
+
+## Docker
+
+A full Docker setup is included with PostgreSQL and pgAdmin.
+
+### Quick start
+
+```bash
+docker compose up -d
+```
+
+This starts three services:
+
+| Service    | URL                          | Description                  |
+| ---------- | ---------------------------- | ---------------------------- |
+| `app`      | http://localhost:3000        | Next.js application          |
+| `postgres` | `localhost:5432`             | PostgreSQL 17 database       |
+| `pgadmin`  | http://localhost:5050        | pgAdmin database UI          |
+
+**pgAdmin credentials:** `admin@admin.com` / `admin`
+**Postgres credentials:** `postgres` / `postgres` (database: `nextjs-boilerplate`)
+
+pgAdmin is pre-configured with the Postgres server connection. You may be prompted for the database password on first connect — enter `postgres`.
+
+### Running only Postgres and pgAdmin (for local development)
+
+If you want to develop locally but use Docker for the database:
+
+```bash
+docker compose up -d postgres pgadmin
+```
+
+Then use the default `DATABASE_URL` from `.env.example` which points to `localhost:5432`.
+
+### Push the database schema
+
+After starting Postgres for the first time, push the Prisma schema:
+
+```bash
+pnpm db:generate
+pnpm db:push
+```
+
+### Rebuild the app image
+
+```bash
+docker compose up -d --build app
+```
+
+### Environment variables
+
+The `app` service reads environment variables from `docker-compose.yml`. To override or add variables (e.g., Stripe keys), either edit the `environment` section in `docker-compose.yml` or create a `.env` file and reference it with `env_file` in the compose config.
 
 ## Deployment
 
