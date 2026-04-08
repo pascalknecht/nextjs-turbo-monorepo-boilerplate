@@ -1,0 +1,17 @@
+node_modules
+.next
+.turbo
+.git
+.gitignore
+.env
+.env*.local
+.vscode
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.vercel

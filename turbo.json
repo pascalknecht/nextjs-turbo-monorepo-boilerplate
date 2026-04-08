@@ -15,6 +15,7 @@
     "STRIPE_PRICE_ID",
     "NEXT_PUBLIC_APP_URL",
     "NEXT_PUBLIC_STRIPE_KEY",
+    "DOCKER",
     "VERCEL",
     "VERCEL_URL"
   ],
