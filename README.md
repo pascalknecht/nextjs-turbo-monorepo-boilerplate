@@ -10,7 +10,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 | Language         | [TypeScript](https://www.typescriptlang.org/)                              |
 | Build System     | [Turborepo](https://turbo.build/repo)                                      |
 | Package Manager  | [pnpm](https://pnpm.io/)                                                  |
-| Database ORM     | [Prisma 7](https://www.prisma.io/) with MariaDB/MySQL                     |
+| Database ORM     | [Prisma 7](https://www.prisma.io/) with PostgreSQL                        |
 | Authentication   | [Better Auth](https://www.better-auth.com/) (email/password, organizations)|
 | Payments         | [Stripe](https://stripe.com/) (checkout, webhooks)                         |
 | UI Components    | [shadcn/ui](https://ui.shadcn.com/) + [Radix](https://www.radix-ui.com/)  |
@@ -47,7 +47,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 
 - [Node.js](https://nodejs.org/) >= 20.19.0
 - [pnpm](https://pnpm.io/) 10.6+
-- A MariaDB or MySQL database
+- A PostgreSQL database
 
 ### 1. Install dependencies
 
@@ -65,7 +65,7 @@ Edit `.env` with your values. Required variables for local development:
 
 | Variable             | Description                                              |
 | -------------------- | -------------------------------------------------------- |
-| `DATABASE_URL`       | MariaDB/MySQL connection string                          |
+| `DATABASE_URL`       | PostgreSQL connection string                             |
 | `BETTER_AUTH_SECRET`  | Secret for session signing (`openssl rand -base64 32`)  |
 | `BETTER_AUTH_URL`     | Base URL of your app (e.g., `http://localhost:3000`)    |
 | `NEXT_PUBLIC_APP_URL` | Public-facing app URL                                   |

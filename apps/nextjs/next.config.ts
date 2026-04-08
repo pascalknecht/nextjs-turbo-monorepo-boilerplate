@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
-  serverExternalPackages: ["@prisma/adapter-mariadb"],
+  serverExternalPackages: ["@prisma/adapter-pg"],
 
   experimental: {
     typedEnv: true,
