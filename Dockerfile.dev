@@ -11,6 +11,7 @@ COPY apps/nextjs/package.json ./apps/nextjs/package.json
 RUN pnpm install --frozen-lockfile
 
 COPY apps/nextjs/prisma ./apps/nextjs/prisma
+COPY apps/nextjs/prisma.config.ts ./apps/nextjs/prisma.config.ts
 
 RUN pnpm db:generate
 
