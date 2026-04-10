@@ -51,11 +51,11 @@ services:
       - ./apps/nextjs/src:/app/apps/nextjs/src
       - ./apps/nextjs/public:/app/apps/nextjs/public
       - ./apps/nextjs/prisma:/app/apps/nextjs/prisma
+      - ./apps/nextjs/prisma.config.ts:/app/apps/nextjs/prisma.config.ts
       - ./apps/nextjs/next.config.ts:/app/apps/nextjs/next.config.ts
       - ./apps/nextjs/tsconfig.json:/app/apps/nextjs/tsconfig.json
       - ./apps/nextjs/postcss.config.mjs:/app/apps/nextjs/postcss.config.mjs
       - ./turbo.json:/app/turbo.json
-      - ./.env:/app/.env
     depends_on:
       postgres:
         condition: service_healthy

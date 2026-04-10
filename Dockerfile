@@ -1,7 +1,6 @@
 # ── Stage 1: base ─────────────────────────────────────
 FROM node:22-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.6.2 --activate
-RUN apk add --no-cache libc6-compat
 
 # ── Stage 2: install dependencies ─────────────────────
 FROM base AS deps
@@ -22,6 +21,7 @@ COPY . .
 
 ENV SKIP_ENV_VALIDATION=1
 ENV DOCKER=1
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
 RUN pnpm db:generate
 RUN pnpm build
