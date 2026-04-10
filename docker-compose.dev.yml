@@ -56,7 +56,6 @@ services:
       - ./apps/nextjs/tsconfig.json:/app/apps/nextjs/tsconfig.json
       - ./apps/nextjs/postcss.config.mjs:/app/apps/nextjs/postcss.config.mjs
       - ./turbo.json:/app/turbo.json
-      - ./.env:/app/.env
     depends_on:
       postgres:
         condition: service_healthy
