@@ -40,7 +40,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 │   └── pgadmin/           # pgAdmin server pre-configuration
 ├── Dockerfile             # Multi-stage production build
 ├── Dockerfile.dev         # Development build with hot reload
-├── docker-compose.yml     # App + Postgres + pgAdmin (production)
+├── docker-compose.yml     # App + Postgres (production)
 ├── docker-compose.dev.yml # App + Postgres + pgAdmin (development)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
@@ -162,7 +162,7 @@ To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
 
 ## Docker
 
-A full Docker setup is included with PostgreSQL and pgAdmin. There are two modes: **production** (optimized build) and **development** (hot reload with volume mounts).
+A full Docker setup is included. There are two modes: **production** (optimized build) and **development** (hot reload with volume mounts). pgAdmin is available in the development compose only.
 
 ### Development mode
 
@@ -196,25 +196,21 @@ docker compose -f docker-compose.dev.yml up -d --build app
 docker compose up -d
 ```
 
-This starts three services:
+This starts two services:
 
 | Service    | URL                          | Description                  |
 | ---------- | ---------------------------- | ---------------------------- |
 | `app`      | http://localhost:3000        | Next.js application          |
 | `postgres` | `localhost:5432`             | PostgreSQL 17 database       |
-| `pgadmin`  | http://localhost:5050        | pgAdmin database UI          |
 
-**pgAdmin credentials:** `admin@admin.com` / `admin`
 **Postgres credentials:** `postgres` / `postgres` (database: `nextjs-boilerplate`)
 
-pgAdmin is pre-configured with the Postgres server connection. You may be prompted for the database password on first connect — enter `postgres`.
-
-### Running only Postgres and pgAdmin (for local development)
+### Running only Postgres (for local development)
 
 If you want to develop locally but use Docker for the database:
 
 ```bash
-docker compose up -d postgres pgadmin
+docker compose up -d postgres
 ```
 
 Then use the default `DATABASE_URL` from `.env.example` which points to `localhost:5432`.
