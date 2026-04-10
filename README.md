@@ -39,7 +39,9 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 ├── docker/                # Docker configuration files
 │   └── pgadmin/           # pgAdmin server pre-configuration
 ├── Dockerfile             # Multi-stage production build
-├── docker-compose.yml     # App + Postgres + pgAdmin
+├── Dockerfile.dev         # Development build with hot reload
+├── docker-compose.yml     # App + Postgres + pgAdmin (production)
+├── docker-compose.dev.yml # App + Postgres + pgAdmin (development)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
 └── .env.example           # Environment variable template
@@ -160,9 +162,35 @@ To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
 
 ## Docker
 
-A full Docker setup is included with PostgreSQL and pgAdmin.
+A full Docker setup is included with PostgreSQL and pgAdmin. There are two modes: **production** (optimized build) and **development** (hot reload with volume mounts).
 
-### Quick start
+### Development mode
+
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+
+This starts the app with Turbopack hot-reloading inside the container. Source files are bind-mounted so changes on your host are reflected immediately — no rebuild needed.
+
+| Service    | URL                          | Description                  |
+| ---------- | ---------------------------- | ---------------------------- |
+| `app`      | http://localhost:3000        | Next.js dev server           |
+| `postgres` | `localhost:5432`             | PostgreSQL 17 database       |
+| `pgadmin`  | http://localhost:5050        | pgAdmin database UI          |
+
+After starting for the first time, push the database schema:
+
+```bash
+docker compose -f docker-compose.dev.yml exec app pnpm db:push
+```
+
+To rebuild the dev image (e.g., after adding dependencies):
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build app
+```
+
+### Production mode
 
 ```bash
 docker compose up -d

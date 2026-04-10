@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nextjs-boilerplate
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nextjs-boilerplate
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-change-me-to-a-random-secret}
+      BETTER_AUTH_URL: http://localhost:3000
+      NODE_ENV: development
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./apps/nextjs/src:/app/apps/nextjs/src
+      - ./apps/nextjs/public:/app/apps/nextjs/public
+      - ./apps/nextjs/prisma:/app/apps/nextjs/prisma
+      - ./apps/nextjs/next.config.ts:/app/apps/nextjs/next.config.ts
+      - ./apps/nextjs/tsconfig.json:/app/apps/nextjs/tsconfig.json
+      - ./apps/nextjs/postcss.config.mjs:/app/apps/nextjs/postcss.config.mjs
+      - ./turbo.json:/app/turbo.json
+      - ./.env:/app/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  pgadmin_data:
