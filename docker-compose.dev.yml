@@ -7,7 +7,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nextjs-boilerplate
     ports:
-      - "5432:5432"
+      # Automatically picks the first free host port in this range.
+      - "${POSTGRES_PORT_RANGE:-5432-5532}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -25,7 +26,8 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     ports:
-      - "5050:80"
+      # Automatically picks the first free host port in this range.
+      - "${PGADMIN_PORT_RANGE:-5050-5150}:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
       - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
@@ -39,7 +41,8 @@ services:
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      # Automatically picks the first free host port in this range.
+      - "${APP_PORT_RANGE:-3000-3100}:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nextjs-boilerplate
       NEXT_PUBLIC_APP_URL: http://localhost:3000
