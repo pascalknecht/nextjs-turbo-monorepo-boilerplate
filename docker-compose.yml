@@ -27,9 +27,9 @@ services:
       - "${APP_PORT_RANGE:-3000-3100}:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nextjs-boilerplate
-      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-change-me-to-a-random-secret}
-      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       NODE_ENV: production
     depends_on:
       postgres:

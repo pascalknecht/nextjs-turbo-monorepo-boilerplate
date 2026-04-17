@@ -259,6 +259,11 @@ You can also override host port ranges via compose environment variables:
 - `POSTGRES_PORT_RANGE` (default: `5432-5532`)
 - `PGADMIN_PORT_RANGE` (dev only, default: `5050-5150`)
 
+If the app is assigned a non-`3000` host port, also set:
+
+- `NEXT_PUBLIC_APP_URL` (for example, `http://localhost:3001`)
+- `BETTER_AUTH_URL` (for example, `http://localhost:3001`)
+
 ## Deployment
 
 This project is optimized for [Vercel](https://vercel.com/) deployment. The `turbo.json` configuration includes Vercel-aware environment variables.
