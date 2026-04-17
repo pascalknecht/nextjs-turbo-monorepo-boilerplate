@@ -256,10 +256,10 @@ In development compose (`docker-compose.dev.yml`), you can pin host ports via co
 - `POSTGRES_PORT` (default: `0`, random host port mapped to container `5432`)
 - `PGADMIN_PORT` (dev only, default: `0`, random host port mapped to container `80`)
 
-In development mode, Better Auth derives the effective auth origin from the incoming request host so Docker dynamic ports work out of the box. You should still set:
+In development mode, Compose now derives the app URLs from `APP_PORT` by default, so Better Auth and the frontend URL stay aligned when you pin a port. When `APP_PORT=0` (random host port), Docker chooses the final host port after startup, so that exact value cannot be pre-injected into container env vars by Compose. You should still set:
 
-- `NEXT_PUBLIC_APP_URL` to the URL you use in the browser (for example, `http://localhost:3001`)
-- `BETTER_AUTH_URL` as a stable fallback URL (for example, `http://localhost:3000`)
+- `APP_PORT` to pin a predictable host port (for example, `3001`) when you want stable URLs
+- `NEXT_PUBLIC_APP_URL` / `BETTER_AUTH_URL` only if you need to override Compose defaults
 - `BETTER_AUTH_TRUSTED_ORIGINS` if you access the same dev server from additional origins (for example, `http://localhost:3000,http://127.0.0.1:3001`)
 
 ## Deployment
