@@ -69,12 +69,13 @@ cp .env.example .env
 
 Edit `.env` with your values. Required variables for local development:
 
-| Variable             | Description                                              |
-| -------------------- | -------------------------------------------------------- |
-| `DATABASE_URL`       | PostgreSQL connection string                             |
-| `BETTER_AUTH_SECRET`  | Secret for session signing (`openssl rand -base64 32`)  |
-| `BETTER_AUTH_URL`     | Base URL of your app (e.g., `http://localhost:3000`)    |
-| `NEXT_PUBLIC_APP_URL` | Public-facing app URL                                   |
+| Variable                      | Description                                                               |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| `DATABASE_URL`                | PostgreSQL connection string                                              |
+| `BETTER_AUTH_SECRET`          | Secret for session signing (`openssl rand -base64 32`)                   |
+| `BETTER_AUTH_URL`             | Base URL used by Better Auth (e.g., `http://localhost:3000`)             |
+| `NEXT_PUBLIC_APP_URL`         | Public-facing app URL                                                     |
+| `BETTER_AUTH_TRUSTED_ORIGINS` | Optional comma-separated extra origins allowed by Better Auth origin check |
 
 Optional variables for additional features:
 
@@ -259,6 +260,7 @@ In development mode, if the app is assigned a non-`3000` host port, also set:
 
 - `NEXT_PUBLIC_APP_URL` (for example, `http://localhost:3001`)
 - `BETTER_AUTH_URL` (for example, `http://localhost:3001`)
+- `BETTER_AUTH_TRUSTED_ORIGINS` if you access the same dev server from additional origins (for example, `http://localhost:3000,http://127.0.0.1:3001`)
 
 ## Deployment
 
