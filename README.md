@@ -172,11 +172,19 @@ docker compose -f docker-compose.dev.yml up -d
 
 This starts the app with Turbopack hot-reloading inside the container. Source files are bind-mounted so changes on your host are reflected immediately — no rebuild needed.
 
-| Service    | URL                          | Description                  |
+| Service    | Default host port range      | Description                  |
 | ---------- | ---------------------------- | ---------------------------- |
-| `app`      | http://localhost:3000        | Next.js dev server           |
-| `postgres` | `localhost:5432`             | PostgreSQL 17 database       |
-| `pgadmin`  | http://localhost:5050        | pgAdmin database UI          |
+| `app`      | `3000-3100`                  | Next.js dev server           |
+| `postgres` | `5432-5532`                  | PostgreSQL 17 database       |
+| `pgadmin`  | `5050-5150`                  | pgAdmin database UI          |
+
+Docker now selects the first free host port in each range. To check which port was assigned:
+
+```bash
+docker compose -f docker-compose.dev.yml port app 3000
+docker compose -f docker-compose.dev.yml port postgres 5432
+docker compose -f docker-compose.dev.yml port pgadmin 80
+```
 
 After starting for the first time, push the database schema:
 
@@ -233,6 +241,17 @@ docker compose up -d --build app
 ### Environment variables
 
 The `app` service reads environment variables from `docker-compose.yml`. To override or add variables (e.g., Stripe keys), either edit the `environment` section in `docker-compose.yml` or create a `.env` file and reference it with `env_file` in the compose config.
+
+In development compose (`docker-compose.dev.yml`), you can override host port ranges via compose environment variables:
+
+- `APP_PORT_RANGE` (default: `3000-3100`)
+- `POSTGRES_PORT_RANGE` (default: `5432-5532`)
+- `PGADMIN_PORT_RANGE` (dev only, default: `5050-5150`)
+
+In development mode, if the app is assigned a non-`3000` host port, also set:
+
+- `NEXT_PUBLIC_APP_URL` (for example, `http://localhost:3001`)
+- `BETTER_AUTH_URL` (for example, `http://localhost:3001`)
 
 ## Deployment
 
