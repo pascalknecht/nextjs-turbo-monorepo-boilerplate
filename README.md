@@ -181,15 +181,10 @@ docker compose -f docker-compose.dev.yml up -d --force-recreate
 
 | Service    | Default host port         | Description            |
 | ---------- | ------------------------- | ---------------------- |
-| `postgres` | Dynamic (Docker-assigned) | PostgreSQL 17 database |
-| `pgadmin`  | Dynamic (Docker-assigned) | pgAdmin database UI    |
+| `postgres` | `localhost:5432`          | PostgreSQL 17 database |
+| `pgadmin`  | http://localhost:5050     | pgAdmin database UI    |
 
-Check assigned host ports:
-
-```bash
-docker compose -f docker-compose.dev.yml port postgres 5432
-docker compose -f docker-compose.dev.yml port pgadmin 80
-```
+Default host ports are stable. Override them with env vars if needed.
 
 **Postgres credentials:** `postgres` / `postgres` (database: `nextjs-boilerplate`)
 
@@ -206,8 +201,8 @@ pnpm db:push
 
 In development compose (`docker-compose.dev.yml`), you can pin host ports via compose environment variables:
 
-- `POSTGRES_PORT` (default: `0`, random host port mapped to container `5432`)
-- `PGADMIN_PORT` (default: `0`, random host port mapped to container `80`)
+- `POSTGRES_PORT` (default: `5432`, mapped to container `5432`)
+- `PGADMIN_PORT` (default: `5050`, mapped to container `80`)
 
 ## Deployment
 

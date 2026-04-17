@@ -7,9 +7,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nextjs-boilerplate
     ports:
-      # Use 0 to publish to a random free host port.
+      # Use POSTGRES_PORT to override the default stable host port.
       - target: 5432
-        published: "${POSTGRES_PORT:-0}"
+        published: "${POSTGRES_PORT:-5432}"
         protocol: tcp
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -28,9 +28,9 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     ports:
-      # Use 0 to publish to a random free host port.
+      # Use PGADMIN_PORT to override the default stable host port.
       - target: 80
-        published: "${PGADMIN_PORT:-0}"
+        published: "${PGADMIN_PORT:-5050}"
         protocol: tcp
     volumes:
       - pgadmin_data:/var/lib/pgadmin
