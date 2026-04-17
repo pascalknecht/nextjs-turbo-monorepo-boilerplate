@@ -172,9 +172,17 @@ docker compose -f docker-compose.dev.yml up -d
 
 This starts the app with Turbopack hot-reloading inside the container. Source files are bind-mounted so changes on your host are reflected immediately — no rebuild needed.
 
-If you previously started the production stack (or changed compose files), recreate containers to avoid stale port bindings:
+If you previously started a different compose stack (or changed compose files), recreate containers to avoid stale port bindings:
 
 ```bash
+docker compose -f docker-compose.dev.yml down --remove-orphans
+docker compose -f docker-compose.dev.yml up -d --force-recreate
+```
+
+If `app` still shows both `3000` and a random port, clear any compose file auto-merge from your shell and recreate:
+
+```bash
+unset COMPOSE_FILE
 docker compose -f docker-compose.dev.yml down --remove-orphans
 docker compose -f docker-compose.dev.yml up -d --force-recreate
 ```

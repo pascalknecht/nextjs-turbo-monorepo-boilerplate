@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: nextjs-boilerplate
-    ports:
+    ports: !override
       # Use 0 to publish to a random free host port.
       - target: 5432
         published: "${POSTGRES_PORT:-0}"
@@ -44,7 +44,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     restart: unless-stopped
-    ports:
+    ports: !override
       # Use 0 to publish to a random free host port.
       - target: 3000
         published: "${APP_PORT:-0}"
