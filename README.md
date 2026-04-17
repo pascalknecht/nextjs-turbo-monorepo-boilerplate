@@ -206,17 +206,10 @@ docker compose up -d
 
 This starts two services:
 
-| Service    | Default host port range      | Description                  |
+| Service    | URL                          | Description                  |
 | ---------- | ---------------------------- | ---------------------------- |
-| `app`      | `3000-3100`                  | Next.js application          |
-| `postgres` | `5432-5532`                  | PostgreSQL 17 database       |
-
-To check assigned ports:
-
-```bash
-docker compose port app 3000
-docker compose port postgres 5432
-```
+| `app`      | http://localhost:3000        | Next.js application          |
+| `postgres` | `localhost:5432`             | PostgreSQL 17 database       |
 
 **Postgres credentials:** `postgres` / `postgres` (database: `nextjs-boilerplate`)
 
@@ -228,11 +221,7 @@ If you want to develop locally but use Docker for the database:
 docker compose up -d postgres
 ```
 
-Then use the mapped Postgres port from:
-
-```bash
-docker compose port postgres 5432
-```
+Then use the default `DATABASE_URL` from `.env.example` which points to `localhost:5432`.
 
 ### Push the database schema
 
@@ -253,13 +242,13 @@ docker compose up -d --build app
 
 The `app` service reads environment variables from `docker-compose.yml`. To override or add variables (e.g., Stripe keys), either edit the `environment` section in `docker-compose.yml` or create a `.env` file and reference it with `env_file` in the compose config.
 
-You can also override host port ranges via compose environment variables:
+In development compose (`docker-compose.dev.yml`), you can override host port ranges via compose environment variables:
 
 - `APP_PORT_RANGE` (default: `3000-3100`)
 - `POSTGRES_PORT_RANGE` (default: `5432-5532`)
 - `PGADMIN_PORT_RANGE` (dev only, default: `5050-5150`)
 
-If the app is assigned a non-`3000` host port, also set:
+In development mode, if the app is assigned a non-`3000` host port, also set:
 
 - `NEXT_PUBLIC_APP_URL` (for example, `http://localhost:3001`)
 - `BETTER_AUTH_URL` (for example, `http://localhost:3001`)
