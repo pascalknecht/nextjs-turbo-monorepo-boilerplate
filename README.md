@@ -40,7 +40,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 │   └── pgadmin/           # pgAdmin server pre-configuration
 ├── Dockerfile             # Multi-stage production build
 ├── Dockerfile.dev         # Development build with hot reload
-├── docker-compose.yml     # App + Postgres (production)
+├── docker-compose.prod.yml # App + Postgres (production)
 ├── docker-compose.dev.yml # App + Postgres + pgAdmin (development)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
@@ -162,7 +162,7 @@ To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
 
 ## Docker
 
-A full Docker setup is included. There are two modes: **production** (optimized build) and **development** (hot reload with volume mounts). pgAdmin is available in the development compose only.
+A full Docker setup is included. There are two modes: **production** (optimized build) and **development** (hot reload with volume mounts). pgAdmin is available in the development compose only. The files are intentionally standalone—run either `docker-compose.dev.yml` or `docker-compose.prod.yml`, not both together.
 
 ### Development mode
 
@@ -171,6 +171,13 @@ docker compose -f docker-compose.dev.yml up -d
 ```
 
 This starts the app with Turbopack hot-reloading inside the container. Source files are bind-mounted so changes on your host are reflected immediately — no rebuild needed.
+
+If you previously started the production stack (or changed compose files), recreate containers to avoid stale port bindings:
+
+```bash
+docker compose -f docker-compose.dev.yml down --remove-orphans
+docker compose -f docker-compose.dev.yml up -d --force-recreate
+```
 
 | Service    | Default host port            | Description                  |
 | ---------- | ---------------------------- | ---------------------------- |
@@ -201,7 +208,7 @@ docker compose -f docker-compose.dev.yml up -d --build app
 ### Production mode
 
 ```bash
-docker compose up -d
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 This starts two services:
@@ -218,7 +225,7 @@ This starts two services:
 If you want to develop locally but use Docker for the database:
 
 ```bash
-docker compose up -d postgres
+docker compose -f docker-compose.prod.yml up -d postgres
 ```
 
 Then use the default `DATABASE_URL` from `.env.example` which points to `localhost:5432`.
@@ -235,12 +242,12 @@ pnpm db:push
 ### Rebuild the app image
 
 ```bash
-docker compose up -d --build app
+docker compose -f docker-compose.prod.yml up -d --build app
 ```
 
 ### Environment variables
 
-The `app` service reads environment variables from `docker-compose.yml`. To override or add variables (e.g., Stripe keys), either edit the `environment` section in `docker-compose.yml` or create a `.env` file and reference it with `env_file` in the compose config.
+The production `app` service reads environment variables from `docker-compose.prod.yml`. To override or add variables (e.g., Stripe keys), either edit the `environment` section in `docker-compose.prod.yml` or create a `.env` file and reference it with `env_file` in the compose config.
 
 In development compose (`docker-compose.dev.yml`), you can pin host ports via compose environment variables:
 
