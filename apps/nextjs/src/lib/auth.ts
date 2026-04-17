@@ -6,6 +6,17 @@ import { organization } from "better-auth/plugins";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
+const useDynamicBaseURL = process.env.NODE_ENV === "development";
+
+const baseURL = useDynamicBaseURL
+  ? {
+      // Docker dev maps the container to random host ports,
+      // so derive the origin from the incoming request host.
+      allowedHosts: ["localhost:*", "127.0.0.1:*", "0.0.0.0:*"],
+      protocol: "http" as const,
+      fallback: process.env.BETTER_AUTH_URL,
+    }
+  : process.env.BETTER_AUTH_URL;
 
 function toOrigin(value: string): string | null {
   try {
@@ -31,7 +42,7 @@ const trustedOrigins = Array.from(
 );
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL,
   trustedOrigins,
   emailAndPassword: {
     enabled: true,

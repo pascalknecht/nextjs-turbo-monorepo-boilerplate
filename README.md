@@ -73,7 +73,7 @@ Edit `.env` with your values. Required variables for local development:
 | ----------------------------- | ------------------------------------------------------------------------- |
 | `DATABASE_URL`                | PostgreSQL connection string                                              |
 | `BETTER_AUTH_SECRET`          | Secret for session signing (`openssl rand -base64 32`)                   |
-| `BETTER_AUTH_URL`             | Base URL used by Better Auth (e.g., `http://localhost:3000`)             |
+| `BETTER_AUTH_URL`             | Base fallback URL for Better Auth (used in production and as dev fallback) |
 | `NEXT_PUBLIC_APP_URL`         | Public-facing app URL                                                     |
 | `BETTER_AUTH_TRUSTED_ORIGINS` | Optional comma-separated extra origins allowed by Better Auth origin check |
 
@@ -256,10 +256,10 @@ In development compose (`docker-compose.dev.yml`), you can pin host ports via co
 - `POSTGRES_PORT` (default: `0`, random host port mapped to container `5432`)
 - `PGADMIN_PORT` (dev only, default: `0`, random host port mapped to container `80`)
 
-In development mode, if the app is assigned a non-`3000` host port, also set:
+In development mode, Better Auth derives the effective auth origin from the incoming request host so Docker dynamic ports work out of the box. You should still set:
 
-- `NEXT_PUBLIC_APP_URL` (for example, `http://localhost:3001`)
-- `BETTER_AUTH_URL` (for example, `http://localhost:3001`)
+- `NEXT_PUBLIC_APP_URL` to the URL you use in the browser (for example, `http://localhost:3001`)
+- `BETTER_AUTH_URL` as a stable fallback URL (for example, `http://localhost:3000`)
 - `BETTER_AUTH_TRUSTED_ORIGINS` if you access the same dev server from additional origins (for example, `http://localhost:3000,http://127.0.0.1:3001`)
 
 ## Deployment
