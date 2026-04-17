@@ -132,7 +132,7 @@ This starter uses [Better Auth](https://www.better-auth.com/) with:
 - **Organization** plugin for team/workspace support
 - **Prisma adapter** for database-backed sessions
 
-Protected routes (`/dashboard/*`, `/settings/*`) are guarded by middleware that checks for a valid session cookie and redirects unauthenticated users to `/login`.
+Protected routes (`/dashboard/*`, `/settings/*`) are guarded by a proxy that checks for a valid session cookie and redirects unauthenticated users to `/login`.
 
 ## Stripe Integration
 
