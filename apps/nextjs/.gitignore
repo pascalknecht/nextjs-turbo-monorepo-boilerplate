@@ -37,3 +37,6 @@ next-env.d.ts
 
 
 .env
+
+# generated Prisma artifacts (client + engines)
+/src/lib/generated/prisma/
