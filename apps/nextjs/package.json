@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "pnpm with-env next dev --turbo",
-    "build": "pnpm with-env next build",
-    "start": "pnpm with-env next start",
+    "dev": "pnpm with-env next dev \"${npm_package_json%/package.json}\" --turbo",
+    "build": "pnpm with-env next build \"${npm_package_json%/package.json}\"",
+    "start": "pnpm with-env next start \"${npm_package_json%/package.json}\"",
     "lint": "pnpm with-env eslint src/",
     "typecheck": "pnpm with-env tsc --noEmit",
     "test": "vitest run",
