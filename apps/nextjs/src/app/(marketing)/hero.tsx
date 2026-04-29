@@ -17,7 +17,7 @@ function FloatingCard({
 }) {
   return (
     <div
-      className={`absolute rounded-2xl border border-border bg-card p-4 shadow-lg transition-all ${className}`}
+      className={`border-border bg-card absolute rounded-2xl border p-4 shadow-lg transition-all ${className}`}
       style={{
         animation: `float 6s ease-in-out ${delay}s infinite`,
       }}
@@ -46,7 +46,7 @@ function ScreenCard({
           <div className="size-2 rounded-full bg-yellow-400" />
           <div className="size-2 rounded-full bg-green-400" />
         </div>
-        <span className="text-[10px] font-medium text-muted-foreground">
+        <span className="text-muted-foreground text-[10px] font-medium">
           {title}
         </span>
       </div>
@@ -57,27 +57,20 @@ function ScreenCard({
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden pb-32 pt-20 md:pb-40 md:pt-28">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
+    <section className="relative overflow-hidden pt-20 pb-32 md:pt-28 md:pb-40">
+      <div className="from-primary/5 pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] via-transparent to-transparent" />
 
-      <div className="container relative mx-auto px-4">
+      <div className="relative container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 flex justify-center">
-            <Badge variant="outline" className="gap-1.5 px-3 py-1 text-xs">
-              <Sparkles className="size-3" />
-              Now in Public Beta
-            </Badge>
-          </div>
-
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className="text-foreground mb-6 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl xl:text-7xl">
             The modern platform
             <br />
-            <span className="bg-gradient-to-r from-foreground via-foreground/70 to-foreground bg-clip-text text-transparent">
+            <span className="from-foreground via-foreground/70 to-foreground bg-gradient-to-r bg-clip-text text-transparent">
               for growing teams
             </span>
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground md:text-lg">
+          <p className="text-muted-foreground mx-auto mb-10 max-w-2xl text-base md:text-lg">
             Streamline your workflow, collaborate seamlessly, and ship faster
             with an all-in-one platform built for modern SaaS teams.
           </p>
@@ -94,7 +87,7 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <p className="mt-4 text-xs text-muted-foreground">
+          <p className="text-muted-foreground mt-4 text-xs">
             No credit card required &middot; 14-day free trial &middot; Cancel
             anytime
           </p>
@@ -102,49 +95,47 @@ export function HeroSection() {
 
         <div className="relative mx-auto mt-20 h-[340px] max-w-5xl md:h-[400px]">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-64 w-full max-w-2xl rounded-3xl border border-border bg-card/80 shadow-2xl backdrop-blur-sm md:h-72">
-              <div className="flex items-center gap-2 border-b border-border px-5 py-3">
+            <div className="border-border bg-card/80 h-64 w-full max-w-2xl rounded-3xl border shadow-2xl backdrop-blur-sm md:h-72">
+              <div className="border-border flex items-center gap-2 border-b px-5 py-3">
                 <div className="flex gap-1.5">
                   <div className="size-2.5 rounded-full bg-red-400" />
                   <div className="size-2.5 rounded-full bg-yellow-400" />
                   <div className="size-2.5 rounded-full bg-green-400" />
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  Dashboard
-                </span>
+                <span className="text-muted-foreground text-xs">Dashboard</span>
               </div>
               <div className="grid grid-cols-3 gap-4 p-5">
                 <div className="space-y-3">
-                  <div className="h-3 w-3/4 rounded bg-muted" />
-                  <div className="h-8 rounded-lg bg-primary/10" />
-                  <div className="h-8 rounded-lg bg-muted" />
-                  <div className="h-8 rounded-lg bg-muted" />
+                  <div className="bg-muted h-3 w-3/4 rounded" />
+                  <div className="bg-primary/10 h-8 rounded-lg" />
+                  <div className="bg-muted h-8 rounded-lg" />
+                  <div className="bg-muted h-8 rounded-lg" />
                 </div>
                 <div className="col-span-2 space-y-3">
                   <div className="flex gap-3">
-                    <div className="h-20 flex-1 rounded-lg bg-primary/5 p-3">
-                      <div className="mb-2 h-2 w-12 rounded bg-muted" />
-                      <div className="text-xl font-bold text-foreground/70">
+                    <div className="bg-primary/5 h-20 flex-1 rounded-lg p-3">
+                      <div className="bg-muted mb-2 h-2 w-12 rounded" />
+                      <div className="text-foreground/70 text-xl font-bold">
                         2,847
                       </div>
                     </div>
-                    <div className="h-20 flex-1 rounded-lg bg-primary/5 p-3">
-                      <div className="mb-2 h-2 w-12 rounded bg-muted" />
-                      <div className="text-xl font-bold text-foreground/70">
+                    <div className="bg-primary/5 h-20 flex-1 rounded-lg p-3">
+                      <div className="bg-muted mb-2 h-2 w-12 rounded" />
+                      <div className="text-foreground/70 text-xl font-bold">
                         94.2%
                       </div>
                     </div>
                   </div>
-                  <div className="h-24 rounded-lg bg-muted/50 p-3 md:h-28">
+                  <div className="bg-muted/50 h-24 rounded-lg p-3 md:h-28">
                     <div className="flex h-full items-end gap-1.5">
                       {[40, 65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95].map(
                         (h, i) => (
                           <div
                             key={i}
-                            className="flex-1 rounded-t bg-primary/20"
+                            className="bg-primary/20 flex-1 rounded-t"
                             style={{ height: `${h}%` }}
                           />
-                        )
+                        ),
                       )}
                     </div>
                   </div>
@@ -155,12 +146,12 @@ export function HeroSection() {
 
           <ScreenCard
             title="Analytics"
-            className="left-0 top-4 w-44 md:left-4 md:w-52"
+            className="top-4 left-0 w-44 md:left-4 md:w-52"
             delay={0}
           >
             <div className="space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-xs text-muted-foreground">MRR</span>
+                <span className="text-muted-foreground text-xs">MRR</span>
                 <span className="text-xs font-medium text-green-600">
                   +12.5%
                 </span>
@@ -170,7 +161,7 @@ export function HeroSection() {
                 {[30, 45, 35, 60, 50, 70, 65, 80, 75, 90].map((h, i) => (
                   <div
                     key={i}
-                    className="flex-1 rounded-t bg-primary/30"
+                    className="bg-primary/30 flex-1 rounded-t"
                     style={{ height: `${h}%` }}
                   />
                 ))}
@@ -180,18 +171,18 @@ export function HeroSection() {
 
           <ScreenCard
             title="Team Activity"
-            className="bottom-4 right-0 w-48 md:bottom-8 md:right-4 md:w-56"
+            className="right-0 bottom-4 w-48 md:right-4 md:bottom-8 md:w-56"
             delay={2}
           >
             <div className="space-y-2">
               {["Sarah K.", "Mike R.", "Anna L."].map((name, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <div className="size-5 rounded-full bg-primary/20" />
+                  <div className="bg-primary/20 size-5 rounded-full" />
                   <div className="flex-1">
                     <div className="text-[10px] font-medium">{name}</div>
-                    <div className="h-1 rounded bg-muted">
+                    <div className="bg-muted h-1 rounded">
                       <div
-                        className="h-1 rounded bg-primary/40"
+                        className="bg-primary/40 h-1 rounded"
                         style={{ width: `${80 - i * 15}%` }}
                       />
                     </div>
@@ -214,10 +205,10 @@ export function HeroSection() {
               ].map((msg, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-1.5 rounded bg-muted/50 px-2 py-1"
+                  className="bg-muted/50 flex items-center gap-1.5 rounded px-2 py-1"
                 >
                   <div className="size-1.5 rounded-full bg-green-500" />
-                  <span className="text-[9px] text-muted-foreground">
+                  <span className="text-muted-foreground text-[9px]">
                     {msg}
                   </span>
                 </div>
@@ -227,16 +218,16 @@ export function HeroSection() {
 
           <ScreenCard
             title="Integrations"
-            className="right-2 top-0 w-40 md:right-8 md:w-44"
+            className="top-0 right-2 w-40 md:right-8 md:w-44"
             delay={1}
           >
             <div className="grid grid-cols-3 gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex size-8 items-center justify-center rounded-lg bg-muted"
+                  className="bg-muted flex size-8 items-center justify-center rounded-lg"
                 >
-                  <div className="size-4 rounded bg-primary/20" />
+                  <div className="bg-primary/20 size-4 rounded" />
                 </div>
               ))}
             </div>

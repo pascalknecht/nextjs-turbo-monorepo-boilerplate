@@ -40,7 +40,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 │   └── pgadmin/           # pgAdmin server pre-configuration
 ├── Dockerfile             # Multi-stage production build
 ├── Dockerfile.dev         # Development build with hot reload
-├── docker-compose.dev.yml # Postgres + pgAdmin (development)
+├── docker-compose.dev.yml # Next.js + Postgres + pgAdmin (development)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
 └── .env.example           # Environment variable template
@@ -161,26 +161,40 @@ To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
 
 ## Docker
 
-Docker Compose is configured for development database tooling only:
+Docker Compose is configured for full development:
 
+- Next.js app
 - PostgreSQL
 - pgAdmin
 
-Start the stack:
+Start the stack with file sync / watch mode (recommended on Windows):
 
 ```bash
-docker compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up --watch
+```
+
+Or use the root script:
+
+```bash
+pnpm docker:dev
+```
+
+If the stack is already running and you only want to start watch mode:
+
+```bash
+docker compose -f docker-compose.dev.yml watch
 ```
 
 If you changed compose settings and want to recreate containers:
 
 ```bash
 docker compose -f docker-compose.dev.yml down --remove-orphans
-docker compose -f docker-compose.dev.yml up -d --force-recreate
+docker compose -f docker-compose.dev.yml up --watch --force-recreate
 ```
 
 | Service    | Default host port         | Description            |
 | ---------- | ------------------------- | ---------------------- |
+| `nextjs`   | http://localhost:3000     | Next.js app (dev mode) |
 | `postgres` | `localhost:5432`          | PostgreSQL 17 database |
 | `pgadmin`  | http://localhost:5050     | pgAdmin database UI    |
 
@@ -201,6 +215,7 @@ pnpm db:push
 
 In development compose (`docker-compose.dev.yml`), you can pin host ports via compose environment variables:
 
+- `NEXTJS_PORT` (default: `3000`, mapped to container `3000`)
 - `POSTGRES_PORT` (default: `5432`, mapped to container `5432`)
 - `PGADMIN_PORT` (default: `5050`, mapped to container `80`)
 
