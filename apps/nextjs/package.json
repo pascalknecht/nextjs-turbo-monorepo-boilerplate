@@ -4,17 +4,16 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "pnpm with-env next dev",
-    "build": "pnpm with-env next build",
-    "start": "pnpm with-env next start",
-    "lint": "pnpm with-env eslint src/",
-    "typecheck": "pnpm with-env tsc --noEmit",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "with-env": "dotenv -e ../../.env --",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/webhooks/stripe",
-    "db:generate": "pnpm with-env prisma generate",
-    "db:push": "pnpm with-env prisma db push"
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -28,7 +27,6 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.6.1",
-    "dotenv-cli": "^8.0.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.7.0",

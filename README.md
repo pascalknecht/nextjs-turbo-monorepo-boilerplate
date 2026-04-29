@@ -4,27 +4,28 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 
 ## Tech Stack
 
-| Category         | Technology                                                                 |
-| ---------------- | -------------------------------------------------------------------------- |
-| Framework        | [Next.js 16](https://nextjs.org/) with [React 19](https://react.dev/)     |
-| Language         | [TypeScript](https://www.typescriptlang.org/)                              |
-| Build System     | [Turborepo](https://turbo.build/repo)                                      |
-| Package Manager  | [pnpm](https://pnpm.io/)                                                  |
-| Database ORM     | [Prisma 7](https://www.prisma.io/) with PostgreSQL                        |
-| Authentication   | [Better Auth](https://www.better-auth.com/) (email/password, organizations)|
-| Payments         | [Stripe](https://stripe.com/) (checkout, webhooks)                         |
-| UI Components    | [shadcn/ui](https://ui.shadcn.com/) + [Radix](https://www.radix-ui.com/)  |
-| Styling          | [Tailwind CSS v4](https://tailwindcss.com/)                                |
-| Testing          | [Vitest](https://vitest.dev/) + Testing Library                            |
-| Linting          | [ESLint 9](https://eslint.org/) (flat config)                              |
-| Formatting       | [Prettier](https://prettier.io/) with Tailwind plugin                      |
-| Env Validation   | [@t3-oss/env-nextjs](https://env.t3.gg/) with Zod                          |
+| Category        | Technology                                                                  |
+| --------------- | --------------------------------------------------------------------------- |
+| Framework       | [Next.js 16](https://nextjs.org/) with [React 19](https://react.dev/)       |
+| Language        | [TypeScript](https://www.typescriptlang.org/)                               |
+| Build System    | [Turborepo](https://turbo.build/repo)                                       |
+| Package Manager | [pnpm](https://pnpm.io/)                                                    |
+| Database ORM    | [Prisma 7](https://www.prisma.io/) with PostgreSQL                          |
+| Authentication  | [Better Auth](https://www.better-auth.com/) (email/password, organizations) |
+| Payments        | [Stripe](https://stripe.com/) (checkout, webhooks)                          |
+| UI Components   | [shadcn/ui](https://ui.shadcn.com/) + [Radix](https://www.radix-ui.com/)    |
+| Styling         | [Tailwind CSS v4](https://tailwindcss.com/)                                 |
+| Testing         | [Vitest](https://vitest.dev/) + Testing Library                             |
+| Linting         | [ESLint 9](https://eslint.org/) (flat config)                               |
+| Formatting      | [Prettier](https://prettier.io/) with Tailwind plugin                       |
+| Env Validation  | [@t3-oss/env-nextjs](https://env.t3.gg/) with Zod                           |
 
 ## Project Structure
 
 ```
 ├── apps/
 │   └── nextjs/            # Next.js 16 application
+│       ├── .env.example   # Env template (copy to .env in this folder)
 │       ├── prisma/        # Database schema
 │       └── src/
 │           ├── app/       # App Router (pages, layouts, API routes)
@@ -43,7 +44,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 ├── docker-compose.dev.yml # Next.js + Postgres + pgAdmin (development)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
-└── .env.example           # Environment variable template
+└── .env.example           # Pointer to apps/nextjs/.env.example
 ```
 
 ## Getting Started
@@ -62,29 +63,39 @@ pnpm install
 
 ### 2. Configure environment variables
 
+All variables for the Next.js app live in **`apps/nextjs/.env`** (not the repo root). The template is committed as `apps/nextjs/.env.example`; the root `.env.example` only points there.
+
 ```bash
-cp .env.example .env
+cp apps/nextjs/.env.example apps/nextjs/.env
 ```
 
-Edit `.env` with your values. Required variables for local development:
+If you still have a legacy **repo-root** `.env`, move its contents to `apps/nextjs/.env` so there is a single app env file.
 
-| Variable             | Description                                              |
-| -------------------- | -------------------------------------------------------- |
-| `DATABASE_URL`       | PostgreSQL connection string                             |
-| `BETTER_AUTH_SECRET`  | Secret for session signing (`openssl rand -base64 32`)  |
-| `BETTER_AUTH_URL`     | Base URL of your app (e.g., `http://localhost:3000`)    |
-| `NEXT_PUBLIC_APP_URL` | Public-facing app URL                                   |
+**How values are loaded**
+
+- **Next.js** (`next dev`, `next build`, `next start`) loads `.env`, `.env.local`, etc. from `apps/nextjs/` automatically. App scripts do not use a `with-env` wrapper.
+- **Prisma CLI** (`pnpm db:generate`, `pnpm db:push`) loads `apps/nextjs/.env` via `apps/nextjs/prisma.config.ts`.
+- **Validation** at runtime uses `@t3-oss/env-nextjs` in `apps/nextjs/src/env.ts` (see [Environment validation](#environment-validation)).
+
+Edit `apps/nextjs/.env` with your values. Required for local development:
+
+| Variable              | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| `DATABASE_URL`        | PostgreSQL connection string                           |
+| `BETTER_AUTH_SECRET`  | Secret for session signing (`openssl rand -base64 32`) |
+| `BETTER_AUTH_URL`     | Base URL of your app (e.g., `http://localhost:3000`)   |
+| `NEXT_PUBLIC_APP_URL` | Public-facing app URL (usually same host as above)    |
 
 Optional variables for additional features:
 
-| Variable                 | Description                  |
-| ------------------------ | ---------------------------- |
-| `GOOGLE_CLIENT_ID`       | Google OAuth client ID       |
-| `GOOGLE_CLIENT_SECRET`   | Google OAuth client secret   |
-| `STRIPE_API_KEY`         | Stripe secret key            |
-| `STRIPE_WEBHOOK_SECRET`  | Stripe webhook signing secret|
-| `STRIPE_PRICE_ID`        | Stripe price ID for checkout |
-| `NEXT_PUBLIC_STRIPE_KEY` | Stripe publishable key       |
+| Variable                 | Description                   |
+| ------------------------ | ----------------------------- |
+| `GOOGLE_CLIENT_ID`       | Google OAuth client ID        |
+| `GOOGLE_CLIENT_SECRET`   | Google OAuth client secret    |
+| `STRIPE_API_KEY`         | Stripe secret key             |
+| `STRIPE_WEBHOOK_SECRET`  | Stripe webhook signing secret |
+| `STRIPE_PRICE_ID`        | Stripe price ID for checkout  |
+| `NEXT_PUBLIC_STRIPE_KEY` | Stripe publishable key        |
 
 ### 3. Set up the database
 
@@ -105,22 +116,22 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Run these from the monorepo root:
 
-| Command              | Description                           |
-| -------------------- | ------------------------------------- |
-| `pnpm dev`           | Start all apps in dev mode (Turbopack)|
-| `pnpm build`         | Build all apps for production         |
-| `pnpm lint`          | Lint all apps with ESLint             |
-| `pnpm typecheck`     | Run TypeScript type checking          |
-| `pnpm test`          | Run tests with Vitest                 |
-| `pnpm format`        | Format codebase with Prettier         |
-| `pnpm format:check`  | Check formatting (CI-friendly)        |
-| `pnpm db:generate`   | Generate Prisma client                |
-| `pnpm db:push`       | Push Prisma schema to database        |
+| Command             | Description                            |
+| ------------------- | -------------------------------------- |
+| `pnpm dev`          | Start all apps in dev mode (Turbopack) |
+| `pnpm build`        | Build all apps for production          |
+| `pnpm lint`         | Lint all apps with ESLint              |
+| `pnpm typecheck`    | Run TypeScript type checking           |
+| `pnpm test`         | Run tests with Vitest                  |
+| `pnpm format`       | Format codebase with Prettier          |
+| `pnpm format:check` | Check formatting (CI-friendly)         |
+| `pnpm db:generate`  | Generate Prisma client                 |
+| `pnpm db:push`      | Push Prisma schema to database         |
 
-For Stripe webhook testing (run from `apps/nextjs`):
+For Stripe webhook testing:
 
 ```bash
-pnpm stripe:listen
+pnpm --filter @repo/nextjs stripe:listen
 ```
 
 ## Authentication
@@ -153,11 +164,13 @@ packages:
   - packages/*
 ```
 
-## Environment Validation
+## Environment validation
 
-Environment variables are validated at runtime using [`@t3-oss/env-nextjs`](https://env.t3.gg/) with Zod schemas. See `apps/nextjs/src/env.ts`.
+[`@t3-oss/env-nextjs`](https://env.t3.gg/) validates the same variables you define in **`apps/nextjs/.env`**. Schemas and `runtimeEnv` wiring live in `apps/nextjs/src/env.ts`.
 
-To skip validation (e.g., during Docker builds), set `SKIP_ENV_VALIDATION=1`.
+Better Auth uses `baseURL` from validated `env` in `apps/nextjs/src/lib/auth.ts` and `auth-client.ts`, so `BETTER_AUTH_URL` / `NEXT_PUBLIC_APP_URL` stay aligned with the file.
+
+To skip validation (e.g., during production Docker builds), set `SKIP_ENV_VALIDATION=1` in the build environment.
 
 ## Docker
 
@@ -192,11 +205,11 @@ docker compose -f docker-compose.dev.yml down --remove-orphans
 docker compose -f docker-compose.dev.yml up --watch --force-recreate
 ```
 
-| Service    | Default host port         | Description            |
-| ---------- | ------------------------- | ---------------------- |
-| `nextjs`   | http://localhost:3000     | Next.js app (dev mode) |
-| `postgres` | `localhost:5432`          | PostgreSQL 17 database |
-| `pgadmin`  | http://localhost:5050     | pgAdmin database UI    |
+| Service    | Default host port     | Description            |
+| ---------- | --------------------- | ---------------------- |
+| `nextjs`   | http://localhost:3000 | Next.js app (dev mode) |
+| `postgres` | `localhost:5432`      | PostgreSQL 17 database |
+| `pgadmin`  | http://localhost:5050 | pgAdmin database UI    |
 
 Default host ports are stable. Override them with env vars if needed.
 
@@ -211,9 +224,18 @@ pnpm db:generate
 pnpm db:push
 ```
 
-### Environment variables
+### Environment variables (Docker)
 
-In development compose (`docker-compose.dev.yml`), you can pin host ports via compose environment variables:
+| Mechanism | What it does |
+| --------- | ------------ |
+| **`apps/nextjs/.env` on your machine** | Same file as local dev. Keep secrets here; it is gitignored. |
+| **`env_file` in `docker-compose.dev.yml`** | The `nextjs` service loads `apps/nextjs/.env` from the host (`required: false` if the file is missing). Variables are injected into the container process. |
+| **`environment` on the `nextjs` service** | Sets `DATABASE_URL` to the **compose** Postgres hostname (`postgres:5432`). That overrides the `DATABASE_URL` value from your `.env` when you use the bundled database, so you do not have to maintain two URLs by hand. |
+| **Repo bind mount `.:/app`** | Your working tree (including `apps/nextjs/package.json` and source) is mounted at `/app`, so script and config changes match the host without rebuilding the image. |
+| **Named volumes for `node_modules`** | Dependencies stay in Docker volumes under `/app/node_modules` and `/app/apps/nextjs/node_modules`. After dependency changes, run `pnpm install` inside the container or rebuild if installs drift. |
+| **`develop.watch` (with `pnpm docker:dev`)** | Syncs file changes into `/app` with ignores for `node_modules` and `.next`; recommended on Windows together with the bind mount for reliable dev reload. |
+
+Host port overrides (optional env vars when you run Compose):
 
 - `NEXTJS_PORT` (default: `3000`, mapped to container `3000`)
 - `POSTGRES_PORT` (default: `5432`, mapped to container `5432`)
@@ -222,6 +244,8 @@ In development compose (`docker-compose.dev.yml`), you can pin host ports via co
 ## Deployment
 
 This project is optimized for [Vercel](https://vercel.com/) deployment. The `turbo.json` configuration includes Vercel-aware environment variables.
+
+Configure the same keys as in **`apps/nextjs/.env.example`** on your host (Vercel project settings, Fly secrets, etc.). There is no repo-root `.env` for the app.
 
 For other platforms, run:
 

@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     working_dir: /app/apps/nextjs
+    env_file:
+      - path: apps/nextjs/.env
+        required: false
     environment:
       NODE_ENV: development
       DOCKER: "1"
@@ -38,6 +41,8 @@ services:
         published: "${NEXTJS_PORT:-3000}"
         protocol: tcp
     volumes:
+      # Bind the repo so package.json and source match the host (image COPY goes stale otherwise).
+      - .:/app
       - root_node_modules:/app/node_modules
       - nextjs_node_modules:/app/apps/nextjs/node_modules
     depends_on:

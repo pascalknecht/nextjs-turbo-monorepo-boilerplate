@@ -7,6 +7,8 @@ apps/nextjs/node_modules
 .gitignore
 .env
 .env*.local
+apps/nextjs/.env
+apps/nextjs/.env*.local
 .vscode
 *.pem
 *.tsbuildinfo
