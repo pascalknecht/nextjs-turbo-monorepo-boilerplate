@@ -97,6 +97,34 @@ Optional variables for additional features:
 | `STRIPE_PRICE_ID`        | Stripe price ID for checkout  |
 | `NEXT_PUBLIC_STRIPE_KEY` | Stripe publishable key        |
 
+### Stripe webhook setup
+
+Configure a Stripe webhook endpoint that sends events to:
+
+```text
+https://<your-app-domain>/api/webhooks/stripe
+```
+
+For local testing, use:
+
+```bash
+pnpm --filter @repo/nextjs stripe:listen
+```
+
+Use **"Select events"** and include the events supported by `@supabase/stripe-sync-engine` (or choose **"Send all events"**). At minimum for this starter, include:
+
+- `checkout.session.completed`
+- `checkout.session.expired`
+- `checkout.session.async_payment_succeeded`
+- `checkout.session.async_payment_failed`
+- `invoice.payment_succeeded`
+- `invoice.payment_failed`
+- `customer.subscription.created`
+- `customer.subscription.updated`
+- `customer.subscription.deleted`
+
+Copy the webhook signing secret (`whsec_...`) to `STRIPE_WEBHOOK_SECRET` in `apps/nextjs/.env`.
+
 ### 3. Set up the database
 
 ```bash
@@ -149,8 +177,9 @@ Protected routes (`/dashboard/*`, `/settings/*`) are guarded by a proxy that che
 Stripe is pre-configured with:
 
 - A lazy-initialized Stripe client (`src/lib/stripe.ts`)
-- A webhook handler at `/api/webhooks/stripe` with signature verification
-- Event stubs for `checkout.session.completed` and `invoice.payment_succeeded`
+- A webhook handler at `/api/webhooks/stripe` backed by `@supabase/stripe-sync-engine`
+- Automatic Stripe schema migrations and event processing for supported webhook types
+- Prisma models for the `stripe` schema, so synced Stripe data can be queried from your app
 
 Stripe-related environment variables are optional so you can start building without a Stripe account.
 
