@@ -5,5 +5,10 @@
     "dockerfile": "../Dockerfile.dev",
     "context": ".."
   },
-  "ports": [3000]
+  "ports": [
+    {
+      "name": "Next.js",
+      "port": 3000
+    }
+  ]
 }
