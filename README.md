@@ -40,8 +40,7 @@ A production-ready monorepo starter template built with **Next.js 16**, **Prisma
 ├── docker/                # Docker configuration files
 │   └── pgadmin/           # pgAdmin server pre-configuration
 ├── Dockerfile             # Multi-stage production build
-├── Dockerfile.dev         # Development build with hot reload
-├── docker-compose.dev.yml # Next.js + Postgres + pgAdmin (development)
+├── docker-compose.dev.yml # Postgres + pgAdmin (run Next.js on the host)
 ├── turbo.json             # Turborepo pipeline config
 ├── pnpm-workspace.yaml    # Workspace definition
 └── .env.example           # Pointer to apps/nextjs/.env.example
@@ -174,46 +173,39 @@ To skip validation (e.g., during production Docker builds), set `SKIP_ENV_VALIDA
 
 ## Docker
 
-Docker Compose is configured for full development:
-
-- Next.js app
-- PostgreSQL
-- pgAdmin
-
-Start the stack with file sync / watch mode (recommended on Windows):
+Docker Compose runs **PostgreSQL** and **pgAdmin** only. Run the Next.js app on the host (`pnpm dev` from the repo root or `apps/nextjs`) so Turbopack hot reload works reliably.
 
 ```bash
-docker compose -f docker-compose.dev.yml up --watch
+docker compose -f docker-compose.dev.yml up
 ```
 
-Or use the root script:
+Or:
 
 ```bash
 pnpm docker:dev
 ```
 
-If the stack is already running and you only want to start watch mode:
-
-```bash
-docker compose -f docker-compose.dev.yml watch
-```
-
-If you changed compose settings and want to recreate containers:
+Recreate containers after compose changes:
 
 ```bash
 docker compose -f docker-compose.dev.yml down --remove-orphans
-docker compose -f docker-compose.dev.yml up --watch --force-recreate
+docker compose -f docker-compose.dev.yml up --force-recreate
 ```
 
-| Service    | Default host port     | Description            |
-| ---------- | --------------------- | ---------------------- |
-| `nextjs`   | http://localhost:3000 | Next.js app (dev mode) |
-| `postgres` | `localhost:5432`      | PostgreSQL 17 database |
-| `pgadmin`  | http://localhost:5050 | pgAdmin database UI    |
+| Service    | Default host port       | Description            |
+| ---------- | ----------------------- | ---------------------- |
+| `postgres` | `localhost:5432`        | PostgreSQL 17 database |
+| `pgadmin`  | http://localhost:5050   | pgAdmin database UI    |
 
 Default host ports are stable. Override them with env vars if needed.
 
 **Postgres credentials:** `postgres` / `postgres` (database: `nextjs-boilerplate`)
+
+Point **`DATABASE_URL`** in `apps/nextjs/.env` at the mapped host port, for example:
+
+`postgresql://postgres:postgres@localhost:5432/nextjs-boilerplate`
+
+(Use the same port as `POSTGRES_PORT` if you override it.)
 
 ### Push the database schema
 
@@ -224,20 +216,8 @@ pnpm db:generate
 pnpm db:push
 ```
 
-### Environment variables (Docker)
-
-| Mechanism | What it does |
-| --------- | ------------ |
-| **`apps/nextjs/.env` on your machine** | Same file as local dev. Keep secrets here; it is gitignored. |
-| **`env_file` in `docker-compose.dev.yml`** | The `nextjs` service loads `apps/nextjs/.env` from the host (`required: false` if the file is missing). Variables are injected into the container process. |
-| **`environment` on the `nextjs` service** | Sets `DATABASE_URL` to the **compose** Postgres hostname (`postgres:5432`). That overrides the `DATABASE_URL` value from your `.env` when you use the bundled database, so you do not have to maintain two URLs by hand. |
-| **Repo bind mount `.:/app`** | Your working tree (including `apps/nextjs/package.json` and source) is mounted at `/app`, so script and config changes match the host without rebuilding the image. |
-| **Named volumes for `node_modules`** | Dependencies stay in Docker volumes under `/app/node_modules` and `/app/apps/nextjs/node_modules`. After dependency changes, run `pnpm install` inside the container or rebuild if installs drift. |
-| **`develop.watch` (with `pnpm docker:dev`)** | Syncs file changes into `/app` with ignores for `node_modules` and `.next`; recommended on Windows together with the bind mount for reliable dev reload. |
-
 Host port overrides (optional env vars when you run Compose):
 
-- `NEXTJS_PORT` (default: `3000`, mapped to container `3000`)
 - `POSTGRES_PORT` (default: `5432`, mapped to container `5432`)
 - `PGADMIN_PORT` (default: `5050`, mapped to container `80`)
 
