@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/cursor-agent-environment.json",
+  "name": "Next.js Starter Kit Dev",
+  "build": {
+    "dockerfile": "../Dockerfile.dev",
+    "context": ".."
+  },
+  "ports": [3000]
+}
