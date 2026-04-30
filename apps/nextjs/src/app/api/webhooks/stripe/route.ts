@@ -1,37 +1,38 @@
-import { stripe } from "@/lib/stripe";
+import { getStripeSync } from "@/lib/stripe-sync";
 import { headers } from "next/headers";
-import type Stripe from "stripe";
+import Stripe from "stripe";
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = (await headers()).get("Stripe-Signature") as string;
-
-  let event: Stripe.Event;
+  const signature = (await headers()).get("Stripe-Signature") ?? undefined;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    const stripeSync = await getStripeSync();
+    await stripeSync.processWebhook(body, signature);
   } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "Unhandled webhook event"
+    ) {
+      // Ignore unsupported events when Stripe is configured to send all events.
+      return new Response(null, { status: 200 });
+    }
+
+    if (error instanceof Stripe.errors.StripeSignatureVerificationError) {
+      return new Response(
+        `Webhook Error: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
+        { status: 400 }
+      );
+    }
+
     return new Response(
-      `Webhook Error: ${
+      `Webhook Processing Error: ${
         error instanceof Error ? error.message : "Unknown error"
       }`,
-      { status: 400 }
+      { status: 500 }
     );
-  }
-
-  switch (event.type) {
-    case "checkout.session.completed": {
-      // TODO: Handle checkout.session.completed event
-      break;
-    }
-    case "invoice.payment_succeeded": {
-      // TODO: Handle invoice.payment_succeeded event
-      break;
-    }
   }
 
   return new Response(null, { status: 200 });
