@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 
@@ -52,12 +51,12 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <Link
+                    <a
                       href={link.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -70,24 +69,24 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Your Company. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link
+            <a
               href="#"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               Privacy
-            </Link>
-            <Link
+            </a>
+            <a
               href="#"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               Terms
-            </Link>
-            <Link
+            </a>
+            <a
               href="#"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               Cookies
-            </Link>
+            </a>
           </div>
         </div>
       </div>
