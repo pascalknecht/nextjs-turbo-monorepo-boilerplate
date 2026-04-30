@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 const plans = [
   {
     name: "Starter",
-    description: "For small teams getting started",
+    description: "For solo founders validating demand",
+    bestFor: "Best for first launches",
     price: "$0",
     period: "/month",
     cta: "Get Started",
@@ -22,7 +23,8 @@ const plans = [
   },
   {
     name: "Pro",
-    description: "For growing teams that need more",
+    description: "For teams shipping weekly to customers",
+    bestFor: "Best for funded SaaS teams",
     price: "$29",
     period: "/month",
     cta: "Start Free Trial",
@@ -41,7 +43,8 @@ const plans = [
   },
   {
     name: "Enterprise",
-    description: "For large organizations",
+    description: "For regulated orgs with strict controls",
+    bestFor: "Best for scale and compliance",
     price: "$99",
     period: "/month",
     cta: "Contact Sales",
@@ -64,47 +67,53 @@ export function PricingSection() {
   return (
     <section className="border-t border-border py-20 md:py-28" id="pricing">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <p className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="mx-auto mb-14 max-w-6xl">
+          <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Pricing
           </p>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
             Simple, transparent pricing
           </h2>
-          <p className="text-base text-muted-foreground md:text-lg">
-            No hidden fees. No surprises. Pick a plan that scales with your
-            team.
+          <p className="mt-5 max-w-2xl text-base text-muted-foreground md:text-lg">
+            Start free, upgrade only when your product momentum demands it.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border/80 bg-card">
+          <div className="hidden grid-cols-12 border-b border-border bg-muted/35 px-6 py-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground md:grid">
+            <div className="col-span-3">Plan</div>
+            <div className="col-span-2">Price</div>
+            <div className="col-span-5">Includes</div>
+            <div className="col-span-2 text-right">Action</div>
+          </div>
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col rounded-2xl border p-8 transition-all ${
-                plan.highlighted
-                  ? "border-primary bg-card shadow-lg"
-                  : "border-border bg-card hover:border-foreground/10 hover:shadow-md"
-              }`}
+              className={`grid gap-6 border-b border-border px-6 py-7 last:border-b-0 md:grid-cols-12 ${plan.highlighted ? "bg-primary/[0.03]" : ""}`}
             >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
-                    {plan.badge}
-                  </span>
+              <div className="md:col-span-3">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold">{plan.name}</h3>
+                  {plan.badge ? (
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-primary-foreground">
+                      {plan.badge}
+                    </span>
+                  ) : null}
                 </div>
-              )}
-              <div className="mb-6">
-                <h3 className="mb-1 text-lg font-semibold">{plan.name}</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="mt-2 text-sm text-muted-foreground">
                   {plan.description}
                 </p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                  {plan.bestFor}
+                </p>
               </div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">{plan.price}</span>
-                <span className="text-muted-foreground">{plan.period}</span>
+
+              <div className="md:col-span-2">
+                <p className="text-4xl font-semibold tracking-tight">{plan.price}</p>
+                <p className="text-sm text-muted-foreground">{plan.period}</p>
               </div>
-              <ul className="mb-8 flex-1 space-y-3">
+
+              <ul className="space-y-2.5 md:col-span-5">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
                     <Check className="mt-0.5 size-4 shrink-0 text-primary" />
@@ -112,14 +121,12 @@ export function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Button
-                variant={plan.ctaVariant}
-                size="lg"
-                className="w-full"
-                asChild
-              >
-                <Link href="/register">{plan.cta}</Link>
-              </Button>
+
+              <div className="md:col-span-2 md:flex md:justify-end">
+                <Button variant={plan.ctaVariant} size="lg" asChild>
+                  <Link href="/register">{plan.cta}</Link>
+                </Button>
+              </div>
             </div>
           ))}
         </div>

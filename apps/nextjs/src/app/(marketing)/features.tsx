@@ -1,70 +1,68 @@
 import {
-  BarChart3,
-  Globe,
-  Layers,
+  ArrowRight,
+  Blocks,
+  ChartNoAxesCombined,
+  Database,
   Lock,
-  RefreshCw,
-  Zap,
+  ShieldCheck,
+  Workflow,
 } from "lucide-react";
 import React from "react";
 
-const features = [
+const capabilities = [
   {
-    icon: Zap,
-    title: "Lightning Fast",
-    description:
-      "Built on edge infrastructure for sub-100ms response times. Your team never waits.",
+    icon: Blocks,
+    title: "Composable architecture",
+    summary: "Build on a starter that respects clean boundaries and real-world growth.",
+    bullets: [
+      "Business logic isolated in use-cases",
+      "Auth and billing wired from day one",
+      "Monorepo-ready structure with Turborepo",
+    ],
   },
   {
-    icon: Lock,
-    title: "Enterprise Security",
-    description:
-      "SOC 2 Type II certified with end-to-end encryption, SSO, and role-based access controls.",
+    icon: ShieldCheck,
+    title: "Production confidence",
+    summary: "Launch with security and reliability patterns already in place.",
+    bullets: [
+      "Role-aware auth with Better Auth",
+      "Type-safe env validation with Zod",
+      "Prisma + PostgreSQL integration out of the box",
+    ],
   },
   {
-    icon: Layers,
-    title: "Powerful Integrations",
-    description:
-      "Connect with 200+ tools your team already uses. Slack, GitHub, Jira, and more.",
-  },
-  {
-    icon: BarChart3,
-    title: "Real-time Analytics",
-    description:
-      "Track every metric that matters with customizable dashboards and automated reports.",
-  },
-  {
-    icon: Globe,
-    title: "Global Scale",
-    description:
-      "Deploy across 30+ regions worldwide. Automatic failover and 99.99% uptime SLA.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Automated Workflows",
-    description:
-      "Build custom automations with our visual workflow editor. No code required.",
+    icon: ChartNoAxesCombined,
+    title: "Scale-ready operations",
+    summary: "Operate and iterate without rebuilding the foundation later.",
+    bullets: [
+      "Stripe checkout and webhook flow included",
+      "Testing + linting + typecheck scripts preconfigured",
+      "Smooth path from localhost to Vercel deployment",
+    ],
   },
 ];
 
 const steps = [
   {
-    step: "01",
-    title: "Connect your tools",
+    step: "1",
+    title: "Clone and configure",
     description:
-      "Integrate your existing stack in minutes with our one-click connectors and open API.",
+      "Install dependencies, set your environment variables, and run your local stack in minutes.",
+    icon: Database,
   },
   {
-    step: "02",
-    title: "Configure your workspace",
+    step: "2",
+    title: "Ship the core flow",
     description:
-      "Set up teams, permissions, and workflows tailored to how your organization operates.",
+      "Enable auth, billing, and data models, then deliver your first customer-facing path fast.",
+    icon: Workflow,
   },
   {
-    step: "03",
-    title: "Scale with confidence",
+    step: "3",
+    title: "Harden and scale",
     description:
-      "Launch to your team and watch productivity soar. We handle the infrastructure.",
+      "Expand with confidence using typed boundaries, tested modules, and deployment-ready defaults.",
+    icon: Lock,
   },
 ];
 
@@ -73,33 +71,51 @@ export function FeaturesSection() {
     <>
       <section className="border-t border-border py-20 md:py-28" id="features">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
-            <p className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-              Features
+          <div className="mx-auto mb-14 max-w-6xl">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              Core capabilities
             </p>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-              Everything you need to ship faster
+            <h2 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
+              The foundation feels mature from day one
             </h2>
-            <p className="text-base text-muted-foreground md:text-lg">
-              A complete toolkit designed for modern teams. Focus on building
-              your product, not managing your tools.
+            <p className="mt-5 max-w-2xl text-base text-muted-foreground md:text-lg">
+              Instead of feature bloat, you get opinionated primitives you can
+              trust under real product pressure.
             </p>
           </div>
 
-          <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-foreground/10 hover:shadow-md"
+          <div className="mx-auto grid max-w-6xl gap-0 border-y border-border">
+            {capabilities.map((capability, index) => (
+              <article
+                key={capability.title}
+                className="grid gap-6 border-b border-border py-8 last:border-b-0 md:grid-cols-12 md:py-10"
               >
-                <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-primary/10">
-                  <feature.icon className="size-5 text-primary" />
+                <div className="md:col-span-4">
+                  <div className="mb-5 flex size-11 items-center justify-center rounded-2xl bg-primary/10">
+                    <capability.icon className="size-5 text-primary" />
+                  </div>
+                  <span className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Pillar 0{index + 1}
+                  </span>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-tight">
+                    {capability.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {capability.summary}
+                  </p>
                 </div>
-                <h3 className="mb-2 text-base font-semibold">{feature.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {feature.description}
-                </p>
-              </div>
+                <ul className="space-y-3 md:col-span-8 md:pt-8">
+                  {capability.bullets.map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="flex items-start gap-2 border-b border-border/70 pb-3 text-sm last:border-b-0 last:pb-0"
+                    >
+                      <ArrowRight className="mt-0.5 size-4 shrink-0 text-primary" />
+                      <span className="text-muted-foreground">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </div>
         </div>
@@ -110,29 +126,38 @@ export function FeaturesSection() {
         id="how-it-works"
       >
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
-            <p className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-              How it works
+          <div className="mx-auto mb-14 max-w-6xl">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              Implementation path
             </p>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-              Up and running in minutes
+            <h2 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
+              From blank repo to production momentum
             </h2>
-            <p className="text-base text-muted-foreground md:text-lg">
-              Getting started takes less time than your morning coffee.
+            <p className="mt-5 max-w-2xl text-base text-muted-foreground md:text-lg">
+              A clear sequence that keeps teams shipping instead of reworking
+              foundations.
             </p>
           </div>
 
-          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-3">
+          <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
             {steps.map((step) => (
-              <div key={step.step} className="text-center">
-                <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-                  <span className="text-sm font-bold">{step.step}</span>
+              <article
+                key={step.step}
+                className="rounded-2xl border border-border/80 bg-background p-6"
+              >
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                    Step {step.step}
+                  </span>
+                  <step.icon className="size-4 text-primary" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <h3 className="mb-2 text-lg font-semibold tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-[0.95rem]">
                   {step.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>

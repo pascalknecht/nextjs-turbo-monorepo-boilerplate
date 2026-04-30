@@ -25,6 +25,12 @@
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
       "computedHash": "9af5586344afb431269b49915947218c06852781ddaa4f6d65f746240f645703"
     },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "f5fbeb7d47d3d339a9d845ba73328dff3d6be0879cdb854e49679bfcde94c341"
+    },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
       "sourceType": "github",
