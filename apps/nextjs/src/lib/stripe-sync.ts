@@ -1,5 +1,5 @@
 import "server-only";
-import { StripeSync, runMigrations } from "@supabase/stripe-sync-engine";
+import { StripeSync } from "@supabase/stripe-sync-engine";
 
 const STRIPE_SCHEMA = "stripe";
 
@@ -15,11 +15,6 @@ async function createStripeSync(): Promise<StripeSync> {
   const databaseUrl = requireEnv("DATABASE_URL");
   const stripeSecretKey = requireEnv("STRIPE_API_KEY");
   const stripeWebhookSecret = requireEnv("STRIPE_WEBHOOK_SECRET");
-
-  await runMigrations({
-    databaseUrl,
-    schema: STRIPE_SCHEMA,
-  });
 
   return new StripeSync({
     schema: STRIPE_SCHEMA,

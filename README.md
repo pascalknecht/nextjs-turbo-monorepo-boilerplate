@@ -178,7 +178,7 @@ Stripe is pre-configured with:
 
 - A lazy-initialized Stripe client (`src/lib/stripe.ts`)
 - A webhook handler at `/api/webhooks/stripe` backed by `@supabase/stripe-sync-engine`
-- Automatic Stripe schema migrations and event processing for supported webhook types
+- Webhook event processing for supported `@supabase/stripe-sync-engine` event types
 - Prisma models for the `stripe` schema, so synced Stripe data can be queried from your app
 
 Stripe-related environment variables are optional so you can start building without a Stripe account.
