@@ -9,9 +9,7 @@
     "typecheck": "turbo typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo test",
-    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
-    "db:generate": "turbo db:generate",
-    "db:push": "turbo db:push"
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "prettier": "^3.8.1",
