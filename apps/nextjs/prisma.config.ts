@@ -7,7 +7,7 @@ const appRoot = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(appRoot, ".env") });
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
+  schema: "prisma",
   datasource: {
     url: env("DATABASE_URL"),
   },
