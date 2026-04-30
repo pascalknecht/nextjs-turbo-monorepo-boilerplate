@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
 
   serverExternalPackages: ["@prisma/adapter-pg"],
 
+  typedRoutes: true,
   experimental: {
     typedEnv: true,
   },

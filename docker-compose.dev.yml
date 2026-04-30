@@ -1,54 +1,4 @@
 services:
-  nextjs:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    restart: unless-stopped
-    working_dir: /app/apps/nextjs
-    env_file:
-      - path: apps/nextjs/.env
-        required: false
-    environment:
-      NODE_ENV: development
-      DOCKER: "1"
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nextjs-boilerplate
-      WATCHPACK_POLLING: "true"
-      CHOKIDAR_USEPOLLING: "true"
-      CHOKIDAR_INTERVAL: "300"
-    command: >
-      sh -c "pnpm db:generate && pnpm dev"
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-          ignore:
-            - .git/
-            - node_modules/
-            - apps/nextjs/node_modules/
-            - apps/nextjs/.next/
-        - action: rebuild
-          path: Dockerfile.dev
-        - action: rebuild
-          path: package.json
-        - action: rebuild
-          path: pnpm-lock.yaml
-        - action: rebuild
-          path: apps/nextjs/package.json
-    ports:
-      # Use NEXTJS_PORT to override the default stable host port.
-      - target: 3000
-        published: "${NEXTJS_PORT:-3000}"
-        protocol: tcp
-    volumes:
-      # Bind the repo so package.json and source match the host (image COPY goes stale otherwise).
-      - .:/app
-      - root_node_modules:/app/node_modules
-      - nextjs_node_modules:/app/apps/nextjs/node_modules
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
@@ -90,7 +40,5 @@ services:
         condition: service_healthy
 
 volumes:
-  root_node_modules:
-  nextjs_node_modules:
   postgres_data:
   pgadmin_data:
